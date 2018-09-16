@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.1.7//EN"
+    "http://struts.apache.org/dtds/struts-2.1.7.dtd">
+<struts>
+	<constant name="struts.ognl.allowStaticMethodAccess" value="true"></constant>
+    <constant name="struts.enable.DynamicMethodInvocation" value="true"></constant>
+    <constant name="struts.devMode" value="true" />
+	<package name="firstPackage" extends="struts-default" namespace="/">
+		<global-results>
+		    <result name="error">/error.jsp</result>
+		</global-results>
+		<global-exception-mappings>
+		    <exception-mapping result="error"
+		         exception="java.lang.RuntimeException">           
+		    </exception-mapping>
+		</global-exception-mappings>
+		<action name="*" class="employeeAction" method = "{1}">
+			<result name="success">/index.jsp</result>
+			<result name="input">/login.jsp</result>
+		</action>
+		<action name="getImg" class="securityCodeImageAction">
+             <result name="success" type="stream">
+                 <param name="contentType">image/jpeg</param>
+                <param name="inputName">imageStream</param>
+                <param name="bufferSize">2048</param>
+             </result>
+		</action>
+		<action name="down" class="downAction">	
+			<result name="success" type="stream">
+				<param name="contentType">application/vnd.ms-excel</param>
+	            <param name="inputName">is</param>
+	            <param name="contentDisposition">attachment;filename="${fileName}"</param>
+	            <param name="bufferSize">4096</param>	
+			</result>	
+		</action>
+	</package>
+	<package name="secondPackage" extends="struts-default" namespace="/jsp/claim">
+		<interceptors>
+			<interceptor name="loginInt" class="cn.jboa.interceptor.LoginInterceptor" />
+		</interceptors>		
+		<global-results>
+			<result name="nopage">/nopage.jsp</result>
+			<result name="error">/error.jsp</result>
+		</global-results>
+		<global-exception-mappings>
+		    <exception-mapping result="error"
+		         exception="java.lang.RuntimeException">           
+		    </exception-mapping>
+		</global-exception-mappings>
+		<action name="claimVoucher_*" class="claimVoucherAction" method = "{1}">
+			<result name="claimVoucherList">/jsp/claim/claim_voucher_list.jsp</result>
+			<result name="claimVoucherEdit">/jsp/claim/claim_voucher_edit.jsp</result>
+			<result name="claimVoucherView">/jsp/claim/claim_voucher_view.jsp</result>
+			<result name="claimVoucherUpdate">/jsp/claim/claim_voucher_update.jsp</result>
+			<result name="claimVoucherCheck">/jsp/claim/claim_voucher_check.jsp</result>
+			<result name="chain" type="chain">claimVoucher_searchClaimVoucher</result>
+			<result name="error">/error.jsp</result>	
+			<interceptor-ref name="loginInt"></interceptor-ref>
+			<interceptor-ref name="defaultStack"/>
+		</action>
+		<action name="checkResult_*" class="checkResultAction" method = "{1}">
+			<result name="chain" type="chain">claimVoucher_searchClaimVoucher</result>			
+			<interceptor-ref name="loginInt"></interceptor-ref>
+			<interceptor-ref name="defaultStack"/>
+		</action>			
+	</package>
+	<package name="threePackage" extends="struts-default" namespace="/jsp/leave">
+		<interceptors>
+			<interceptor name="loginInt" class="cn.jboa.interceptor.LoginInterceptor" />
+		</interceptors>		
+		<global-results>
+			<result name="nopage">/nopage.jsp</result>
+			<result name="error">/error.jsp</result>
+		</global-results>
+		<global-exception-mappings>
+		    <exception-mapping result="error"
+		         exception="java.lang.RuntimeException">           
+		    </exception-mapping>
+		</global-exception-mappings>
+		<action name="leave_*" class="leaveAction" method = "{1}">
+			<result name="leaveList">/jsp/leave/leave_list.jsp</result>
+			<result name="leaveEdit">/jsp/leave/leave_edit.jsp</result>
+			<result name="leaveView">/jsp/leave/leave_view.jsp</result>
+			<result name="leaveCheck">/jsp/leave/leave_check.jsp</result>
+			<result name="chain" type="chain">leave_searchLeave</result>
+			<result name="error">/error.jsp</result>
+			<interceptor-ref name="loginInt"></interceptor-ref>
+			<interceptor-ref name="defaultStack"/>
+		</action>
+	</package>
+	
+	<package name="fhirdPackage" extends="struts-default" namespace="/jsp/statistics">
+		<interceptors>
+			<interceptor name="loginInt" class="cn.jboa.interceptor.LoginInterceptor" />
+		</interceptors>		
+		<global-results>
+			<result name="nopage">/nopage.jsp</result>
+			<result name="error">/error.jsp</result>
+		</global-results>
+		<global-exception-mappings>
+		    <exception-mapping result="error"
+		         exception="java.lang.RuntimeException">           
+		    </exception-mapping>
+		</global-exception-mappings>
+		<action name="claimVoucherStatistics_*" class="claimVoucherStatisticsAction" method = "{1}">
+			<result name="deptMonthStatisticsList">/jsp/statistics/deptMonthStatistics_list.jsp</result>
+			<result name="deptMonthStatisticsDetail">/jsp/statistics/deptMonthStatistics_detail.jsp</result>
+			<result name="error">/error.jsp</result>
+			<interceptor-ref name="loginInt"></interceptor-ref>
+			<interceptor-ref name="defaultStack"/>
+		</action>
+		<action name="deptStatistics_*" class="deptStatisticsAction" method = "{1}">
+			<result name="deptYearStatisticsDetail">/jsp/statistics/deptYearStatistics_detail.jsp</result>
+			<result name="deptYearStatisticsList">/jsp/statistics/deptYearStatistics_list.jsp</result>
+			<result name="error">/error.jsp</result>
+		<interceptor-ref name="loginInt"></interceptor-ref>
+		<interceptor-ref name="defaultStack"/>
+		</action>
+		<action name="compMonStatistics_*" class="compMonStatisticsAction" method = "{1}">
+			<result name="compMonthStatisticsList">/jsp/statistics/compMonthStatistics_list.jsp</result>
+			<result name="compMonthStatisticsDetail">/jsp/statistics/compMonthStatistics_detail.jsp</result>
+			<result name="error">/error.jsp</result>
+		<interceptor-ref name="loginInt"></interceptor-ref>
+		<interceptor-ref name="defaultStack"/>
+		</action>
+		<action name="compYearStatistics_*" class="compYearStatisticsAction" method = "{1}">
+			<result name="compYearStatisticsList">/jsp/statistics/compYearStatistics_list.jsp</result>
+			<result name="compYearStatisticsDetail">/jsp/statistics/compYearStatistics_detail.jsp</result>			
+			<result name="error">/error.jsp</result>
+		<interceptor-ref name="loginInt"></interceptor-ref>
+		<interceptor-ref name="defaultStack"/>
+		</action>
+	</package>
+	
+	<constant name="struts.i18n.encoding" value="UTF-8"/> 
+	<constant name="struts.configuration.xml.reload" value="true" />   
+</struts>
