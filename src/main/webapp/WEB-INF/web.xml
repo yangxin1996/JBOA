@@ -8,7 +8,8 @@
   <listener>
     <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
   </listener> 
-   <filter>
+  <!-- 实现延迟加载，懒加载的过滤器 -->
+  <filter>
     <filter-name>OpenSessionInViewFilter</filter-name>
     <filter-class>
 			org.springframework.orm.hibernate5.support.OpenSessionInViewFilter
@@ -17,7 +18,8 @@
   <filter-mapping>
     <filter-name>OpenSessionInViewFilter</filter-name>
     <url-pattern>*.action</url-pattern>
-  </filter-mapping>   
+  </filter-mapping>  
+   <!-- Struts2核心过滤器 -->
   <filter>
     <filter-name>struts2</filter-name>
     <filter-class>org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter</filter-class>
@@ -26,24 +28,25 @@
     <filter-name>struts2</filter-name>
     <url-pattern>*.action</url-pattern>
   </filter-mapping>
-	<filter>  
-		<filter-name>characterEncoding</filter-name>  
-		<filter-class>cn.jboa.util.CharacterEncodingFilter</filter-class>  
-	</filter>  
-	<filter-mapping>  
-		<filter-name>characterEncoding</filter-name>  
-		<url-pattern>/*</url-pattern>  
-	</filter-mapping>
+  <!-- 编码过滤器 -->
+  <filter>  
+	<filter-name>characterEncoding</filter-name>  
+	<filter-class>cn.jboa.util.CharacterEncodingFilter</filter-class>  
+  </filter>  
+  <filter-mapping>  
+	<filter-name>characterEncoding</filter-name>  
+	<url-pattern>/*</url-pattern>  
+  </filter-mapping>
 	
-	<error-page>
+  <error-page>
 	<error-code>404</error-code>
 	<location>/nopage.jsp</location>
-	</error-page>
-	<error-page>
+  </error-page>
+  <error-page>
 	<exception-type>java.lang.Throwable</exception-type>
-	<location>/error.jsp</location>
-	
-	</error-page>
+	<location>/error.jsp</location>	
+  </error-page>
+  
   <welcome-file-list>
     <welcome-file>login.jsp</welcome-file>
   </welcome-file-list>
